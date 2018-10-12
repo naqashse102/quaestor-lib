@@ -3,11 +3,10 @@
 var buffer = require('buffer');
 
 var chai = require('chai');
-var expect = chai.expect;
 var should = chai.should();
-var bitcore = require('../../');
-var Script = bitcore.Script;
-var Transaction = bitcore.Transaction;
+var poliscore = require('../../');
+var Script = poliscore.Script;
+var Transaction = poliscore.Transaction;
 var sighash = Transaction.sighash;
 
 var vectors_sighash = require('../data/sighash.json');
@@ -19,7 +18,7 @@ describe('sighash', function() {
       // First element is just a row describing the next ones
       return;
     }
-    it('test vector from bitcoind #' + i + ' (' + vector[4].substring(0, 16) + ')', function() {
+    it('test vector from polisd #' + i + ' (' + vector[4].substring(0, 16) + ')', function() {
       var txbuf = new buffer.Buffer(vector[0], 'hex');
       var scriptbuf = new buffer.Buffer(vector[1], 'hex');
       var subscript = Script(scriptbuf);
@@ -29,9 +28,7 @@ describe('sighash', function() {
       var tx = new Transaction(txbuf);
 
       //make sure transacion to/from buffer is isomorphic
-      var actual = tx.uncheckedSerialize();
-      var expected = txbuf.toString('hex');
-      actual.should.equal(expected);
+      tx.uncheckedSerialize().should.equal(txbuf.toString('hex'));
 
       //sighash ought to be correct
       sighash.sighash(tx, nhashtype, nin, subscript).toString('hex').should.equal(sighashbuf.toString('hex'));

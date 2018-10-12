@@ -1,9 +1,7 @@
 'use strict';
 
-var bitcore = require('../..');
-var Random = bitcore.crypto.Random;
-var should = require('chai').should();
-var expect = require('chai').expect;
+var poliscore = require('../..');
+var Random = poliscore.crypto.Random;
 
 describe('Random', function() {
 
@@ -12,7 +10,6 @@ describe('Random', function() {
     it('should return a buffer', function() {
       var bytes = Random.getRandomBuffer(8);
       bytes.length.should.equal(8);
-
       Buffer.isBuffer(bytes).should.equal(true);
     });
 
@@ -33,14 +30,7 @@ describe('Random', function() {
         }
       }
     });
+
   });
 
-  describe('@getPseudoRandomBuffer', function() {
-        it('should return a buffer', function() {
-          var bytes = Random.getPseudoRandomBuffer(8);
-          bytes.length.should.equal(8);
-
-          Buffer.isBuffer(bytes).should.equal(true);
-        });      
-  });
 });

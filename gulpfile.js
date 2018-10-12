@@ -1,5 +1,5 @@
 
 
-var bitcoreTasks = require('bitcore-build-dash');
+var poliscoreTasks = require('poliscore-build');
 
-bitcoreTasks('lib-dash');
+poliscoreTasks('lib');

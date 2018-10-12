@@ -1,89 +1,31 @@
-# Dashcore examples
-
-
-## Create and Save a Private Key
-
-```javascript
-var privateKey = new bitcore.PrivateKey();
-
-var exported = privateKey.toWIF();
-// e.g. L3T1s1TYP9oyhHpXgkyLoJFGniEgkv2Jhi138d7R2yJ9F4QdDU2m
-var imported = bitcore.PrivateKey.fromWIF(exported);
-var hexa = privateKey.toString();
-// e.g. 'b9de6e778fe92aa7edb69395556f843f1dce0448350112e14906efc2a80fa61a'
-```
-
-## Create an Address
-
-```javascript
-var address = privateKey.toAddress();
-```
-
-## Create a Multisig Address
-
-```javascript
-// Build a 2-of-3 address from public keys
-var p2shAddress = new bitcore.Address([publicKey1, publicKey2, publicKey3], 2);
-```
-
-## Request a Payment
-
-```javascript
-var paymentInfo = {
-  address: '1DNtTk4PUCGAdiNETAzQFWZiy2fCHtGnPx',
-  amount: 120000 //satoshis
-};
-var uri = new bitcore.URI(paymentInfo).toString();
-```
-
-## Create a Transaction
-
-```javascript
-var transaction = new Transaction()
-    .from(utxos)          // Feed information about what unspent outputs one can use
-    .to(address, amount)  // Add an output with the given amount of satoshis
-    .change(address)      // Sets up a change address where the rest of the funds will go
-    .sign(privkeySet)     // Signs all the inputs it can
-```
-
-## Connect to the Network
-
-```javascript
-var peer = new Peer('5.9.85.34');
-
-peer.on('inv', function(message) {
-  // new inventory
-});
-
-peer.connect();
-```
+# Poliscore examples
 
 ## Generate a random address
 ```javascript
-var privateKey = new bitcore.PrivateKey();
+var privateKey = new poliscore.PrivateKey();
 
 var address = privateKey.toAddress();
 ```
 
-## Generate an address from a SHA256 hash
+## Generate a address from a SHA256 hash
 ```javascript
-var value = new Buffer('correct horse battery staple');
-var hash = bitcore.crypto.Hash.sha256(value);
-var bn = bitcore.crypto.BN.fromBuffer(hash);
+var value = Buffer.from('correct horse battery staple');
+var hash = poliscore.crypto.Hash.sha256(value);
+var bn = poliscore.crypto.BN.fromBuffer(hash);
 
-var address = new bitcore.PrivateKey(bn).toAddress();
+var address = new poliscore.PrivateKey(bn).toAddress();
 ```
 
 ## Import an address via WIF
 ```javascript
 var wif = 'Kxr9tQED9H44gCmp6HAdmemAzU3n84H3dGkuWTKvE23JgHMW8gct';
 
-var address = new bitcore.PrivateKey(wif).toAddress();
+var address = new poliscore.PrivateKey(wif).toAddress();
 ```
 
 ## Create a Transaction
 ```javascript
-var privateKey = new bitcore.PrivateKey('L1uyy5qTuGrVXrmrsvHWHgVzW9kKdrp27wBC7Vs6nZDTF2BRUVwy');
+var privateKey = new poliscore.PrivateKey('L1uyy5qTuGrVXrmrsvHWHgVzW9kKdrp27wBC7Vs6nZDTF2BRUVwy');
 var utxo = {
   "txId" : "115e8f72f39fad874cfab0deed11a80f24f967a84079fb56ddf53ea02e308986",
   "outputIndex" : 0,
@@ -92,25 +34,25 @@ var utxo = {
   "satoshis" : 50000
 };
 
-var transaction = new bitcore.Transaction()
+var transaction = new poliscore.Transaction()
   .from(utxo)
   .to('1Gokm82v6DmtwKEB8AiVhm82hyFSsEvBDK', 15000)
   .sign(privateKey);
 ```
 
-## Sign a Bitcoin message
+## Sign a Polis message
 ```javascript
-var Message = require('bitcore-message');
+var Message = require('poliscore-message');
 
-var privateKey = new bitcore.PrivateKey('L23PpjkBQqpAF4vbMHNfTZAb3KFPBSawQ7KinFTzz7dxq6TZX8UA');
+var privateKey = new poliscore.PrivateKey('L23PpjkBQqpAF4vbMHNfTZAb3KFPBSawQ7KinFTzz7dxq6TZX8UA');
 var message = new Message('This is an example of a signed message.');
 
 var signature = message.sign(privateKey);
 ```
 
-## Verify a Bitcoin message
+## Verify a Polis message
 ```javascript
-var Message = require('bitcore-message');
+var Message = require('poliscore-message');
 
 var address = '13Js7D3q4KvfSqgKN8LpNq57gcahrVc5JZ';
 var signature = 'IBOvIfsAs/da1e36W8kw1cQOPqPVXCW5zJgNQ5kI8m57FycZXdeFmeyoIqJSREzE4W7vfDmdmPk0HokuJPvgPPE=';
@@ -120,7 +62,7 @@ var verified = new Message('This is an example of a signed message.').verify(add
 
 ## Create an OP RETURN transaction
 ```javascript
-var privateKey = new bitcore.PrivateKey('L1uyy5qTuGrVXrmrsvHWHgVzW9kKdrp27wBC7Vs6nZDTF2BRUVwy');
+var privateKey = new poliscore.PrivateKey('L1uyy5qTuGrVXrmrsvHWHgVzW9kKdrp27wBC7Vs6nZDTF2BRUVwy');
 var utxo = {
   "txId" : "115e8f72f39fad874cfab0deed11a80f24f967a84079fb56ddf53ea02e308986",
   "outputIndex" : 0,
@@ -129,9 +71,9 @@ var utxo = {
   "satoshis" : 50000
 };
 
-var transaction = new bitcore.Transaction()
+var transaction = new poliscore.Transaction()
     .from(utxo)
-    .addData('bitcore rocks') // Add OP_RETURN data
+    .addData('poliscore rocks') // Add OP_RETURN data
     .sign(privateKey);
 ```
 
@@ -144,27 +86,27 @@ var publicKeys = [
 ];
 var requiredSignatures = 2;
 
-var address = new bitcore.Address(publicKeys, requiredSignatures);
+var address = new poliscore.Address(publicKeys, requiredSignatures);
 ```
 
 ## Spend from a 2-of-2 multisig P2SH address
 ```javascript
 var privateKeys = [
-  new bitcore.PrivateKey('91avARGdfge8E4tZfYLoxeJ5sGBdNJQH4kvjJoQFacbgwmaKkrx'),
-  new bitcore.PrivateKey('91avARGdfge8E4tZfYLoxeJ5sGBdNJQH4kvjJoQFacbgww7vXtT')
+  new poliscore.PrivateKey('91avARGdfge8E4tZfYLoxeJ5sGBdNJQH4kvjJoQFacbgwmaKkrx'),
+  new poliscore.PrivateKey('91avARGdfge8E4tZfYLoxeJ5sGBdNJQH4kvjJoQFacbgww7vXtT')
 ];
-var publicKeys = privateKeys.map(bitcore.PublicKey);
-var address = new bitcore.Address(publicKeys, 2); // 2 of 2
+var publicKeys = privateKeys.map(poliscore.PublicKey);
+var address = new poliscore.Address(publicKeys, 2); // 2 of 2
 
 var utxo = {
   "txId" : "153068cdd81b73ec9d8dcce27f2c77ddda12dee3db424bff5cafdbe9f01c1756",
   "outputIndex" : 0,
   "address" : address.toString(),
-  "script" : new bitcore.Script(address).toHex(),
+  "script" : new poliscore.Script(address).toHex(),
   "satoshis" : 20000
 };
 
-var transaction = new bitcore.Transaction()
+var transaction = new poliscore.Transaction()
     .from(utxo, publicKeys, 2)
     .to('mtoKs9V381UAhUia3d7Vb9GNak8Qvmcsme', 20000)
     .sign(privateKeys);

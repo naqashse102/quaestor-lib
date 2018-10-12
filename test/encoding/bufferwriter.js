@@ -1,10 +1,10 @@
 'use strict';
 
-var bitcore = require('../..');
+var poliscore = require('../..');
 var should = require('chai').should();
-var BufferWriter = bitcore.encoding.BufferWriter;
-var BufferReader = bitcore.encoding.BufferReader;
-var BN = bitcore.crypto.BN;
+var BufferWriter = poliscore.encoding.BufferWriter;
+var BufferReader = poliscore.encoding.BufferReader;
+var BN = poliscore.crypto.BN;
 
 describe('BufferWriter', function() {
 

@@ -1,9 +1,9 @@
 'use strict';
 
 var should = require('chai').should();
-var bitcore = require('../..');
-var Point = bitcore.crypto.Point;
-var BN = bitcore.crypto.BN;
+var poliscore = require('../..');
+var Point = poliscore.crypto.Point;
+var BN = poliscore.crypto.BN;
 
 describe('Point', function() {
 
@@ -132,7 +132,7 @@ describe('Point', function() {
       var y = '0000000000000000000000000000000000000000000000000000000000000000';
       (function() {
         var p = Point(x, y);
-      }).should.throw('Invalid x,y value for curve, cannot equal 0.');
+      }).should.throw('Invalid y value for curve.');
     });
 
 
@@ -160,13 +160,12 @@ describe('Point', function() {
 
     it('should describe this point as invalid because out of curve bounds', function() {
 
-      // point larger than max
       var x = '0000000000000000000000000000000000000000000000000000000000000000';
 
       (function() {
         // set the point
         var p = Point.fromX(false, x);
-      }).should.throw('Invalid x,y value for curve, cannot equal 0.');
+      }).should.throw('Invalid X');
     });
 
   });
