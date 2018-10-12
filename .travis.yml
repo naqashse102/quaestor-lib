@@ -2,6 +2,11 @@ language: node_js
 sudo: required
 addons:
  chrome: stable
+branches:
+ only:
+   - develop
+   - master
+   - evo
 node_js:
 - '6'
 - '7'
@@ -16,10 +21,16 @@ install:
   - npm install
 after_script:
   - gulp coveralls
-
 deploy:
-  skip_cleanup: true
-  - npm publish
-  on:
-    repo: dashevo/dashcore-lib
-    branch: master
+  - provider: script
+    skip_cleanup: true
+    script: npm publish --tag alpha
+    on:
+      repo: dashevo/dashcore-lib
+      branch: evo
+  - provider: script
+    skip_cleanup: true
+    script: npm publish
+    on:
+      repo: dashevo/dashcore-lib
+      branch: master
